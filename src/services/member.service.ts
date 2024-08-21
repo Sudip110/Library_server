@@ -18,10 +18,10 @@ export class MemberService
     //         throw new ApiError(400,`${field.toUpperCase()} field is required!!`);
     //     })
         
-    Object.entries(member).forEach(([field,value])=>{
-        if(!value||(typeof value === 'string' && value.trim()===""))
-            throw new ApiError(400,`${field?.toUpperCase()} field is required!!`)
-     })
+    // Object.entries(member).forEach(([field,value])=>{
+    //     if(!value||(typeof value === 'string' && value.trim()===""))
+    //         throw new ApiError(400,`${field?.toUpperCase()} field is required!!`)
+    //  })
      const{emailid,phoneNumber}=member;
      const emailidRegex = /^[a-zA-Z0-9._%±]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/
      const phoneRegex = /^\d{10}$/
@@ -41,8 +41,31 @@ export class MemberService
     {
         if(!memberId)
             throw new ApiError(400,"memberId is required!");
-        if(! await this.memberRepository.findMemberById(memberId))
+        if(! await this.findMemberById(memberId))
             throw new ApiError(400,"member with this Id does not exist!")
         return await this.memberRepository.deleteMemberById(memberId);
+    }
+
+    async findMemberById(memberId:any)
+    {
+        if(!memberId)
+            throw new ApiError(400,"memberId is required!");
+        
+        const member = await this.memberRepository.findMemberById(memberId);
+        if(member)
+            return member
+        else
+          throw new ApiError(400,"Member with the given memberId does not exist!");
+    }
+
+    async updateMemberById(memberId:any,memberData:any)
+    {
+        if(!memberId)
+            throw new ApiError(400,"memberId is required!");
+      if(! await this.findMemberById(memberId))
+         throw new ApiError(400,"Member with the given member id does not exist!")
+
+      const filreredData = Object.fromEntries(Object.entries(memberData).filter(([key,value])=> value!=='' && value!==null))
+      return await this.memberRepository.updateMemberById(memberId,filreredData);
     }
 }

@@ -21,3 +21,19 @@ export const deleteMemberById = async (req:Request,res:Response,next:NextFunctio
         const response = new ApiSuccess(200,"Member deleted successfully!");
         response.sendResponse(res);
     }
+
+export const findMemberById = async (req:Request,res:Response,next:NextFunction)=>
+    {
+        const {memberId}=req.query;
+        const member = await memberService.findMemberById(memberId);
+        const response = new ApiSuccess(200,"Member found successfully!",member);
+        response.sendResponse(res);
+    }
+
+export const updateMemberById=async (req:Request,res:Response,next:NextFunction)=>
+{
+    const {memberId}=req.query;
+    await memberService.updateMemberById(memberId,req.body);
+    const response = new ApiSuccess(200,"Member updated Successfully!!")
+    response.sendResponse(res);
+}

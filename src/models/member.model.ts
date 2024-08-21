@@ -32,7 +32,7 @@ lastname:{
 dateofbirth:
 {
     type:DataTypes.DATE,
-    allowNull:false
+    allowNull:true
 }
 ,
 emailid:{
@@ -41,7 +41,7 @@ emailid:{
 },
 phoneNumber:
 {
-    type:DataTypes.INTEGER,
+    type:DataTypes.STRING,
     allowNull:false
 }
 ,
@@ -52,7 +52,7 @@ password:{
 address:
 {
     type:DataTypes.STRING,
-    allowNull:false
+    allowNull:true
 }
 },{sequelize,
     modelName:"Member"

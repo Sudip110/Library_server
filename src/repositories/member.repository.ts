@@ -15,9 +15,13 @@ export class MemberRepository implements UserRepository
     {
         return await Member.findOne({where:{memberId:memberId}});
     }
-    
+
     async findMemberByEmail(email:string):Promise<Member|null>
     {
         return await Member.findOne({where:{emailid:email}});
+    }
+
+    async updateMemberById(memberId: any,memberData:any): Promise<any> {
+        return await Member.update(memberData,{where:{memberId:memberId}})
     }
 }
